@@ -8,11 +8,11 @@ import Header from './Component/header/header.component';
 import SignInAndSignUpPage from './Pages/sign-in-and-sign-out/sign-in-and-sign-up.component';
 import CheckoutPage from './Pages/checkout/checkout.component';
 
-import {auth, creatUserProfileDocument} from './firebase/firebase.utils';
+import {auth, createUserProfileDocument } from './firebase/firebase.utils'; //,addCollectionAndDocuments
 import {setCurrentUser} from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect'; 
-
+// import { selectionCollectionsForPreview } from './redux/shop/shop.selector';
 
 // import SignIn from './Component/sign-in.compoent/sign-in.compoent';
 
@@ -25,27 +25,28 @@ import { createStructuredSelector } from 'reselect';
 // );
 
 class App extends React.Component {
-  
-
   unsubscribeFromAuth = null; 
 
   componentDidMount(){
-    const {setCurrentUser} = this.props;
+    const {setCurrentUser } = this.props;
     
    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
      if (userAuth){ //if user exist
-       const userRef = await creatUserProfileDocument(userAuth); //we get this 
+       const userRef = await createUserProfileDocument(userAuth); //we get this 
        
          userRef.onSnapshot(snapShot => { //gets whetever on the snapshot/ we get that from the .get method 
             setCurrentUser({
-                id: snapShot.id, ...snapShot.data()
+                id: snapShot.id, 
+                ...snapShot.data()
             });
          });
        }
 
       setCurrentUser(userAuth);
 
-    creatUserProfileDocument(userAuth)
+    createUserProfileDocument(userAuth)
+    // addCollectionAndDocuments('collections',collectionsArry.map(({title, items}) =>({title, items})))
+
     });
   }
 
@@ -81,6 +82,7 @@ class App extends React.Component {
 
 const mapStateToProps = createStructuredSelector ({
   currentUser: selectCurrentUser
+  // ,collectionsArry: selectionCollectionsForPreview
 });
 
 const mapDispatchToProps = dispatch => ({ 

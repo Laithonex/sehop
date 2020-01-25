@@ -3,11 +3,11 @@ import logger from 'redux-logger'; //type of middelwaear
 import { persistStore } from 'redux-persist';
 import rootReducer from './root-reducer'
 
-const middlewares   = [];
+const middlewares   = []; // this is responsiblie of showing the state and next state on the consol;
 
-if (process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development'){ //it will show on the consol state if the state is equal devlopment, else it will show zero.
     middlewares.push(logger)
-}
+}; 
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares)); //it spread everything from the middleware it the store
 export const persistor = persistStore(store); 

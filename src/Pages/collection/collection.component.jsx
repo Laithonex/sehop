@@ -13,7 +13,7 @@ const {title, items} = collection;
         <h2 className='title'>{title}</h2>
         <div className='items'>
             {
-                items.map(item => <CollectionItem key={item.id} item={item}/>)
+                items.map(item => (<CollectionItem key={item.id} item={item}/>))
             }
         </div>
 
@@ -24,7 +24,7 @@ const mapStateToProps =(state, ownProps) => ({
     collection: selectCollection(ownProps.match.params.collectionId)(state)
 })
 
-export default connect(mapStateToProps) (CollectionPage);
+export default connect(mapStateToProps)(CollectionPage);
 
 // import React from 'react';
 // import { connect } from 'react-redux';
