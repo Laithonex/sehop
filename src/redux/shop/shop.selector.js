@@ -27,7 +27,13 @@ createSelector(
     //find collection.id matching the Url parameter of our collection id map
 )
 
-export const selectIsCollectionsLoaded = createSelector(
-    [selectShop],
-    shop => !!shop.collections
-  );
+export const selectIsCollectionFetching = createSelector(
+    [selectShop], 
+    shop => shop.isFetching
+    ); 
+    
+    
+    export const selectIsCollectionsLoaded = createSelector(
+        [selectShop],
+        shop => !!shop.collections
+    );
