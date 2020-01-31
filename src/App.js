@@ -7,9 +7,10 @@ import ShopPage from './Pages/shop/shop.component';
 import Header from './Component/header/header.component';
 import SignInAndSignUpPage from './Pages/sign-in-and-sign-out/sign-in-and-sign-up.component';
 import CheckoutPage from './Pages/checkout/checkout.component';
+import {checkUserSession} from './redux/user/user.actions';
 
-import {auth, createUserProfileDocument } from './firebase/firebase.utils'; //,addCollectionAndDocuments
-import {setCurrentUser} from './redux/user/user.actions';
+// import {auth, createUserProfileDocument } from './firebase/firebase.utils'; //,addCollectionAndDocuments
+// import {setCurrentUser} from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect'; 
 // import { selectionCollectionsForPreview } from './redux/shop/shop.selector';
@@ -28,31 +29,12 @@ class App extends React.Component {
   unsubscribeFromAuth = null; 
 
   componentDidMount(){
-    const {setCurrentUser } = this.props;
-    
-   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-     if (userAuth){ //if user exist
-       const userRef = await createUserProfileDocument(userAuth); //we get this 
-       
-         userRef.onSnapshot(snapShot => { //gets whetever on the snapshot/ we get that from the .get method 
-            setCurrentUser({
-                id: snapShot.id, 
-                ...snapShot.data()
-            });
-         });
-       }
-
-      setCurrentUser(userAuth);
-
-    createUserProfileDocument(userAuth)
-    // addCollectionAndDocuments('collections',collectionsArry.map(({title, items}) =>({title, items})))
-
-    });
+    const {checkUserSession} = this.props;
+    checkUserSession(); 
   }
 
   componentWillUnmount(){
     this.unsubscribeFromAuth();
-
   }
 
   render(){
@@ -86,7 +68,7 @@ const mapStateToProps = createStructuredSelector ({
 });
 
 const mapDispatchToProps = dispatch => ({ 
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 });
 
-export default connect ( mapStateToProps, mapDispatchToProps )(App); //makesure that hte values are in sequnce repectivly with const values
+export default connect ( mapStateToProps , mapDispatchToProps)(App); //makesure that hte values are in sequnce repectivly with const values
