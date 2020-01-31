@@ -1,27 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route} from 'react-router-dom'; 
-// import {createStructuredSelector} from 'reselect';
+
 import {connect} from 'react-redux';
 
 import {fetchCollectionsStart} from '../../redux/shop/shop.actions';
 
-// import WithSpinner from '../../Component/with-spinner/with-spinner.component'; 
 
 import CollectionOverviewContainer  from '../../Component/collections-overview/collection-overview.container';
 import CollectionPageContainer from '../collection/collection.container'; 
 
-// const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview); 
-// const CollectionPageWithSpinner = WithSpinner(CollectionPage); 
 
-class ShopPage extends React.Component {
-    
-    componentDidMount(){ // this the the promise style
-        const {fetchCollectionsStart} = this.props; 
+const ShopPage = ({fetchCollectionsStart, match}) => {
+    useEffect(()=> {
         fetchCollectionsStart();
-    }
+    },[fetchCollectionsStart]);
     
-    render(){
-        const {match} = this.props;
+    // componentDidMount(){ // this the the promise style
+    //     const {fetchCollectionsStart} = this.props; 
+    //     fetchCollectionsStart();
+    // }
+    
         return(  // Ref. To Shop collection
             <div className='shop-page'> 
         <Route exact path={`${match.path}`} component={CollectionOverviewContainer} /> 
@@ -29,7 +27,7 @@ class ShopPage extends React.Component {
             </div>
         );
     }
-}  
+  
 
 
 const mapDispatchToProps = dispatch => ({
