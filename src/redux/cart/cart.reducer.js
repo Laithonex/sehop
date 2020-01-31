@@ -29,6 +29,11 @@ const cartReducer = (state = INITIAL_STATE, action) => {
                 ...state, 
                 cartItems: removeItemFromCart(state.cartItems, action.payload)  //utility function is been called to work in case REMOVE_ITEM called.
             };
+        case CartActionTypes.CLEAR_CART:
+            return{
+                ...state,
+                cartItems: []
+            }
         default: 
             return state;
     }
